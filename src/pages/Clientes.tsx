@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
-import { Search, Plus, User as UserIcon, X, Phone, MapPin, ShoppingBag, FileText, Edit, Map } from 'lucide-react';
+import { Search, Plus, User as UserIcon, X, Phone, MapPin, ShoppingBag, FileText, Edit } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export default function Clientes() {

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
-import { ArrowLeft, TrendingUp, TrendingDown, DollarSign, PieChart as PieIcon, AlertOctagon } from 'lucide-react';
+import { ArrowLeft, TrendingUp, DollarSign, PieChart as PieIcon, AlertOctagon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export default function Relatorios() {

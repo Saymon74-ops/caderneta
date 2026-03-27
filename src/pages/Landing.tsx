@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { CheckCircle2, ChevronDown, Check, Smartphone, BookOpen, TrendingUp, Package, Users, PieChart, Quote } from 'lucide-react';
+import { CheckCircle2, ChevronDown, Smartphone, BookOpen, TrendingUp, Package, Users, PieChart, Quote } from 'lucide-react';
 
 function FadeIn({ children, delay = 0 }: { children: React.ReactNode, delay?: number }) {
   const [isVisible, setIsVisible] = useState(false);

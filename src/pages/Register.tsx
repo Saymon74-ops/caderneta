@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { useNavigate, Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import logo from '../assets/logo.svg';
 
 export default function Register() {
   const [nome, setNome] = useState('');

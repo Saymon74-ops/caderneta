@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { HandCoins, ChevronDown, ChevronUp, Check, X, MessageCircle } from 'lucide-react';
+import { HandCoins, ChevronDown, ChevronUp, X, MessageCircle } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import toast from 'react-hot-toast';
 import { useAuth } from '../contexts/AuthContext';
