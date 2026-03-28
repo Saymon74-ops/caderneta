@@ -6,7 +6,7 @@ interface Profile {
   id: string;
   nome: string;
   negocio: string;
-  plano: 'pendente' | 'pro';
+  plano: 'pendente' | 'pro' | 'gratuito';
 }
 
 interface AuthContextType {
@@ -43,14 +43,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         id: user.id,
         nome: user.email?.split('@')[0] || 'Usuário',
         negocio: 'Meu Negócio',
-        plano: 'pro'
+        plano: 'gratuito'
       });
-      // Optionally could fetch again or just set locally
       setProfile({
         id: user.id,
         nome: user.email?.split('@')[0] || 'Usuário',
         negocio: 'Meu Negócio',
-        plano: 'pro'
+        plano: 'gratuito'
       } as Profile);
     } else {
       setProfile(data as Profile);
