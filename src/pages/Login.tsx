@@ -44,7 +44,11 @@ export default function Login() {
     setLoading(true);
     const { error } = await supabase.auth.signInWithPassword({ email, password: senha });
     if (error) {
-      toast.error('Email ou senha incorretos');
+      if (error.message === 'Email not confirmed') {
+        toast.error('Confirme seu email antes de entrar. Verifique sua caixa de entrada.');
+      } else {
+        toast.error('Email ou senha incorretos');
+      }
     } else {
       navigate('/dashboard');
     }

@@ -9,6 +9,7 @@ export default function Register() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [loading, setLoading] = useState(false);
+  const [sucesso, setSucesso] = useState(false);
   const navigate = useNavigate();
   const refCode = localStorage.getItem('ref_afiliado') || null;
 
@@ -25,7 +26,9 @@ export default function Register() {
     if (error) {
        toast.error(error.message);
     } else {
-       if (data.user) {
+       if (data.user?.identities?.length === 0) {
+         toast.error('Email já cadastrado mas não confirmado. Verifique sua caixa de entrada.');
+       } else if (data.user) {
          // Insert profile
          await supabase.from('profiles').insert({
             id: data.user.id,
@@ -35,8 +38,7 @@ export default function Register() {
             codigo_afiliado: refCode
          });
          if (refCode) localStorage.removeItem('ref_afiliado');
-         toast.success('Conta criada com sucesso!');
-         navigate('/dashboard');
+         setSucesso(true);
        }
     }
     setLoading(false);
@@ -69,6 +71,21 @@ export default function Register() {
         </div>
 
         <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 relative">
+          {sucesso ? (
+            <div className="text-center py-8">
+              <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+              </div>
+              <h2 className="text-xl font-bold text-gray-800 mb-2 font-syne">Quase lá!</h2>
+              <p className="text-gray-600 mb-6">
+                Enviamos um email de confirmação para <strong>{email}</strong>. Verifique sua caixa de entrada para ativar sua conta.
+              </p>
+              <Link to="/login" className="bg-[#1a9e5c] text-white px-6 py-3 rounded-xl font-bold inline-block">
+                Ir para o Login
+              </Link>
+            </div>
+          ) : (
+            <>
           <h2 className="text-xl font-bold text-gray-800 mb-6 font-syne">
             Criar conta
           </h2>
@@ -110,6 +127,8 @@ export default function Register() {
             Já tem conta?{' '}
             <Link to="/login" className="text-[#1a9e5c] font-semibold hover:underline">Entrar</Link>
           </p>
+          </>
+          )}
         </div>
 
       </div>
