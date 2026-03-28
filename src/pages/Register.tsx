@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { supabase } from '../lib/supabase';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
 export default function Register() {
@@ -10,7 +10,7 @@ export default function Register() {
   const [senha, setSenha] = useState('');
   const [loading, setLoading] = useState(false);
   const [sucesso, setSucesso] = useState(false);
-  const navigate = useNavigate();
+
   const refCode = localStorage.getItem('ref_afiliado') || null;
 
   const handleRegister = async (e: React.FormEvent) => {

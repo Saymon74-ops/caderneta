@@ -8,6 +8,8 @@ import Subscription from './pages/Subscription';
 import Dashboard from './pages/Dashboard';
 
 import Landing from './pages/Landing';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 import Clientes from './pages/Clientes';
 import NovaVenda from './pages/NovaVenda';
 import Fiados from './pages/Fiados';
@@ -53,6 +55,8 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<div className="app-container flex flex-col"><Login /></div>} />
           <Route path="/register" element={<div className="app-container flex flex-col"><Register /></div>} />
+          <Route path="/forgot-password" element={<div className="app-container flex flex-col"><ForgotPassword /></div>} />
+          <Route path="/reset-password" element={<div className="app-container flex flex-col"><ResetPassword /></div>} />
           <Route path="/admin" element={<Admin />} />
 
           <Route path="/subscription" element={
