@@ -1,82 +1,67 @@
-import { useState } from 'react';
-import { useAuth } from '../contexts/AuthContext';
-import { supabase } from '../lib/supabase';
-import { toast } from 'react-hot-toast';
-import { ShieldCheck, CheckCircle2 } from 'lucide-react';
+import { CheckCircle2 } from 'lucide-react';
 
 export default function Subscription() {
-  const { profile, refreshProfile, signOut } = useAuth();
-  const [loading, setLoading] = useState(false);
-
-  const handleSimulatePayment = async () => {
-    setLoading(true);
-    // Simulate Mercado Pago webhook processing
-    setTimeout(async () => {
-      if (profile) {
-        const { error } = await supabase
-          .from('profiles')
-          .update({ plano: 'pro' })
-          .eq('id', profile.id);
-
-        if (!error) {
-          await refreshProfile();
-          toast.success('Pagamento confirmado! Bem-vindo ao PRO.');
-        } else {
-          toast.error('Erro ao atualizar plano.');
-        }
-      }
-      setLoading(false);
-    }, 1500);
-  };
+  const planId = import.meta.env.VITE_MP_PLAN_ID;
+  const mpCheckoutUrl = `https://www.mercadopago.com.br/subscriptions/checkout?preapproval_plan_id=${planId}`;
 
   return (
-    <div className="flex-1 flex flex-col p-6 max-w-sm mx-auto w-full min-h-screen bg-slate-50">
-      <div className="flex-1 flex flex-col items-center justify-center">
-        <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6">
-          <ShieldCheck size={32} className="text-primary" />
-        </div>
+    <div className="min-h-screen bg-[#f2f6f3] flex items-center justify-center p-6">
+      <div className="max-w-md w-full">
         
-        <h1 className="text-2xl font-syne font-bold text-center mb-2">Desbloqueie o Caderneta</h1>
-        <p className="text-center text-slate-500 text-sm mb-8">
-          Sua conta foi criada! Assine agora para ter acesso completo a todas as ferramentas de gestão.
-        </p>
-
-        <div className="card w-full border-2 border-primary/20 shadow-xl relative overflow-hidden mb-8">
-          <div className="absolute top-0 right-0 bg-primary text-white text-[10px] font-bold px-3 py-1 rounded-bl-xl uppercase tracking-wider">
-            Plano Único
-          </div>
-          <div className="p-2">
-            <h2 className="text-xl font-bold font-syne text-slate-800">Plano PRO</h2>
-            <div className="mt-2 flex items-baseline gap-1">
-              <span className="text-3xl font-bold text-primary">R$ 29</span>
-              <span className="text-slate-500 font-medium text-sm">/mês</span>
-            </div>
-          </div>
-          
-          <div className="mt-6 space-y-3">
-            {['Gestão de fiados ilimitada', 'Controle de estoque automático', 'Cadastro de vendedores', 'Relatórios financeiros', 'Notificações automáticas no WhatsApp e Push'].map((feat, i) => (
-              <div key={i} className="flex gap-2 items-start">
-                <CheckCircle2 size={18} className="text-primary shrink-0 mt-0.5" />
-                <span className="text-sm text-slate-700">{feat}</span>
-              </div>
-            ))}
-          </div>
+        <div className="text-center mb-10">
+          <svg width="36" height="44" viewBox="0 0 72 88" fill="none" xmlns="http://www.w3.org/2000/svg" className="mx-auto mb-4">
+            <rect x="0" y="0" width="72" height="88" rx="10" fill="#1a9e5c"/>
+            <rect x="0" y="0" width="14" height="88" rx="10" fill="#0d7a40"/>
+            <rect x="7" y="0" width="7" height="88" fill="#0d7a40"/>
+            <circle cx="14" cy="18" r="5" fill="none" stroke="white" strokeWidth="2"/>
+            <circle cx="14" cy="34" r="5" fill="none" stroke="white" strokeWidth="2"/>
+            <circle cx="14" cy="50" r="5" fill="none" stroke="white" strokeWidth="2"/>
+            <circle cx="14" cy="66" r="5" fill="none" stroke="white" strokeWidth="2"/>
+            <line x1="24" y1="30" x2="60" y2="30" stroke="rgba(255,255,255,0.3)" strokeWidth="1.5"/>
+            <line x1="24" y1="42" x2="60" y2="42" stroke="rgba(255,255,255,0.3)" strokeWidth="1.5"/>
+            <line x1="24" y1="54" x2="60" y2="54" stroke="rgba(255,255,255,0.3)" strokeWidth="1.5"/>
+            <text x="42" y="22" textAnchor="middle" fontSize="18" fontWeight="800" fill="white" fontFamily="sans-serif">C</text>
+          </svg>
+          <h1 className="text-3xl font-bold text-gray-900" style={{fontFamily: 'Syne, sans-serif'}}>
+            Caderneta
+          </h1>
+          <p className="text-gray-500 mt-2 text-sm">Assine para desbloquear todas as funções</p>
         </div>
 
-        <button 
-          onClick={handleSimulatePayment} 
-          disabled={loading}
-          className="btn-primary w-full py-4 text-lg shadow-lg shadow-primary/30"
-        >
-          {loading ? 'Processando...' : 'Assinar com Mercado Pago'}
-        </button>
+        <div className="bg-white rounded-[32px] p-8 shadow-xl border border-gray-100 flex flex-col items-center">
+          <span className="bg-[#dcfce7] text-[#166534] px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-4 inline-block">Plano Pro</span>
+          
+          <div className="flex items-end justify-center gap-1 mb-8">
+            <span className="text-5xl font-extrabold text-[#1a9e5c]" style={{fontFamily: 'Syne, sans-serif'}}>R$39,90</span>
+            <span className="text-xl text-gray-500 font-medium mb-1">/mês</span>
+          </div>
 
-        <button 
-          onClick={signOut}
-          className="mt-6 text-sm text-slate-500 font-medium hover:text-slate-800"
-        >
-          Sair da conta
-        </button>
+          <ul className="space-y-4 w-full mb-10 text-gray-700">
+            {[
+              'Vendas e Clientes ilimitados',
+              'Controle absoluto de fiados',
+              'Controle de estoque completo',
+              'Relatórios de faturamento',
+              'Suporte VIP prioritário'
+            ].map((beneficio, i) => (
+              <li key={i} className="flex items-center gap-3">
+                <CheckCircle2 className="text-[#1a9e5c] shrink-0" size={24} />
+                <span className="font-bold text-[15px]">{beneficio}</span>
+              </li>
+            ))}
+          </ul>
+
+          <a 
+            href={mpCheckoutUrl}
+            className="w-full bg-[#1a9e5c] text-white py-4 rounded-xl font-bold text-lg hover:shadow-lg hover:-translate-y-1 transition-all text-center"
+          >
+            Assinar agora
+          </a>
+          <p className="text-sm font-medium text-gray-400 mt-4 text-center">
+            Pagamento seguro pelo Mercado Pago. Cancele quando quiser.
+          </p>
+        </div>
+
       </div>
     </div>
   );

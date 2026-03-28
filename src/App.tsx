@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Layout from './components/Layout';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
@@ -26,6 +26,7 @@ import Admin from './pages/Admin';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { user, profile, loading } = useAuth();
+  const location = useLocation();
   if (loading) {
     return (
       <div className="app-container flex items-center justify-center">
@@ -34,7 +35,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     );
   }
   if (!user) return <Navigate to="/login" replace />;
-  if (profile && profile.plano !== 'pro') return <Navigate to="/subscription" replace />;
+  if (profile && profile.plano === 'gratuito' && location.pathname !== '/dashboard') return <Navigate to="/subscription" replace />;
   return <>{children}</>;
 };
 
