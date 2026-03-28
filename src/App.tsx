@@ -19,6 +19,8 @@ import Relatorios from './pages/Relatorios';
 import Configuracoes from './pages/Configuracoes';
 import Notificacoes from './pages/Notificacoes';
 import Despesas from './pages/Despesas';
+import Afiliados from './pages/Afiliados';
+import Admin from './pages/Admin';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { user, profile, loading } = useAuth();
@@ -51,6 +53,7 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<div className="app-container flex flex-col"><Login /></div>} />
           <Route path="/register" element={<div className="app-container flex flex-col"><Register /></div>} />
+          <Route path="/admin" element={<Admin />} />
 
           <Route path="/subscription" element={
             <SubscriptionRoute>
@@ -70,6 +73,7 @@ function App() {
             <Route path="/configuracoes" element={<Configuracoes />} />
             <Route path="/notificacoes" element={<Notificacoes />} />
             <Route path="/despesas" element={<Despesas />} />
+            <Route path="/afiliados" element={<Afiliados />} />
           </Route>
         </Routes>
       </BrowserRouter>

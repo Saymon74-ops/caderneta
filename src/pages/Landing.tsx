@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { CheckCircle2, ChevronDown, Smartphone, BookOpen, TrendingUp, Package, Users, PieChart, Quote } from 'lucide-react';
 
 function FadeIn({ children, delay = 0 }: { children: React.ReactNode, delay?: number }) {
@@ -171,6 +171,15 @@ export default function Landing() {
   const [installPrompt, setInstallPrompt] = useState<any>(null);
   const [isInstalled, setIsInstalled] = useState(false);
 
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    const ref = searchParams.get('ref');
+    if (ref) {
+      localStorage.setItem('ref_afiliado', ref);
+    }
+  }, [searchParams]);
+
   useEffect(() => {
     const handler = (e: any) => {
       e.preventDefault();
@@ -267,7 +276,7 @@ export default function Landing() {
           <FadeIn delay={300}>
             <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
               <Link to="/register" className="w-full sm:w-auto bg-[#1a9e5c] text-white px-8 py-4 rounded-full font-bold text-lg shadow-xl shadow-[#1a9e5c]/30 hover:shadow-2xl hover:-translate-y-1 transition-all flex items-center justify-center gap-2">
-                Começar agora — R$29/mês <ChevronRightIcon />
+                Começar agora <ChevronRightIcon />
               </Link>
               <button onClick={() => scrollTo('funcionalidades')} className="w-full sm:w-auto px-8 py-4 rounded-full font-bold text-gray-600 bg-gray-50 hover:bg-gray-100 transition-colors">
                 Ver como funciona
@@ -415,8 +424,7 @@ export default function Landing() {
               <div className="mb-8 border-b border-gray-100 pb-8">
                 <span className="bg-[#dcfce7] text-[#166534] px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-4 inline-block">Plano Pro</span>
                 <div className="flex items-end justify-center gap-1">
-                  <span className="text-5xl font-syne font-extrabold text-gray-900">R$29</span>
-                  <span className="text-xl text-gray-500 font-medium mb-1">/mês</span>
+                  <span className="text-3xl font-syne font-extrabold text-[#1a9e5c]">Teste Grátis</span>
                 </div>
               </div>
               

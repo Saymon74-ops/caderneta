@@ -16,6 +16,7 @@ export default function Menu() {
     { title: 'Relatórios', icon: <PieChart size={20} />, path: '/relatorios', bg: 'bg-emerald-100/50', text: 'text-emerald-700' },
     { title: 'Vendedores', icon: <Users size={20} />, path: '/vendedores', bg: 'bg-blue-100/50', text: 'text-blue-600' },
     { title: 'Despesas', icon: <Receipt size={20} />, path: '/despesas', bg: 'bg-rose-100/50', text: 'text-rose-600' },
+    { title: 'Afiliados', icon: <Users size={20} />, path: '/afiliados', bg: 'bg-orange-100/50', text: 'text-orange-600' },
     { title: 'Configurações', icon: <Settings size={20} />, path: '/configuracoes', bg: 'bg-gray-200/50', text: 'text-gray-700' },
   ];
 

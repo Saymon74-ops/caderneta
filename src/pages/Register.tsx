@@ -10,6 +10,7 @@ export default function Register() {
   const [senha, setSenha] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const refCode = localStorage.getItem('ref_afiliado') || null;
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,8 +31,10 @@ export default function Register() {
             id: data.user.id,
             nome,
             negocio,
-            plano: 'pendente'
+            plano: 'pendente',
+            codigo_afiliado: refCode
          });
+         if (refCode) localStorage.removeItem('ref_afiliado');
          toast.success('Conta criada com sucesso!');
          navigate('/dashboard');
        }
@@ -95,7 +98,7 @@ export default function Register() {
 
             <button type="submit" disabled={loading}
               className="w-full bg-[#1a9e5c] text-white rounded-xl py-3 font-semibold text-sm mt-2 active:scale-95 transition-transform flex justify-center items-center h-12">
-              {loading ? <div className="w-5 h-5 border-2 border-white/40 border-t-white rounded-full animate-spin" /> : 'Criar conta — R$29/mês'}
+              {loading ? <div className="w-5 h-5 border-2 border-white/40 border-t-white rounded-full animate-spin" /> : 'Criar conta'}
             </button>
           </form>
 
