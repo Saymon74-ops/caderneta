@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { supabase } from './lib/supabase';
 import Layout from './components/Layout';
@@ -30,6 +30,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { user, profile, loading: authLoading } = useAuth();
   const [dbPlan, setDbPlan] = useState<string | null>(null);
   const [checkingPlan, setCheckingPlan] = useState(true);
+  const location = useLocation();
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -39,7 +40,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
           setCheckingPlan(false);
        });
     });
-  }, []);
+  }, [location.pathname]);
 
   if (authLoading || checkingPlan) {
     return (

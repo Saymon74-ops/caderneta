@@ -6,8 +6,7 @@ import { supabase } from '../lib/supabase';
 
 export default function Subscription() {
   const { profile, user } = useAuth();
-  const planId = import.meta.env.VITE_MP_PLAN_ID;
-  const mpCheckoutUrl = `https://www.mercadopago.com.br/subscriptions/checkout?preapproval_plan_id=${planId}`;
+  const mpCheckoutUrl = 'https://www.mercadopago.com.br/subscriptions/checkout?preapproval_plan_id=371238157b4f4034a5e2830a56fcf66e';
 
   const [isWaiting, setIsWaiting] = useState(false);
   const [timeoutMsg, setTimeoutMsg] = useState(false);
@@ -112,7 +111,7 @@ export default function Subscription() {
           <span className="bg-[#dcfce7] text-[#166534] px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-4 inline-block">Plano Pro</span>
           
           <div className="flex items-end justify-center gap-1 mb-8">
-            <span className="text-5xl font-extrabold text-[#1a9e5c]" style={{fontFamily: 'Syne, sans-serif'}}>R$39,90</span>
+            <span className="text-[2rem] font-extrabold text-[#1a9e5c]" style={{fontFamily: 'Syne, sans-serif'}}>R$39,90</span>
             <span className="text-xl text-gray-500 font-medium mb-1">/mês</span>
           </div>
 
