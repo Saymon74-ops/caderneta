@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './components/Layout';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
@@ -26,7 +26,7 @@ import Admin from './pages/Admin';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { user, profile, loading } = useAuth();
-  const location = useLocation();
+
   if (loading) {
     return (
       <div className="app-container flex items-center justify-center">
@@ -40,7 +40,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 };
 
 const SubscriptionRoute = ({ children }: { children: React.ReactNode }) => {
-  const { user, profile, loading } = useAuth();
+  const { user, loading } = useAuth();
   if (loading) return null;
   if (!user) return <Navigate to="/login" replace />;
   // allow pro users to see their active subscription page
