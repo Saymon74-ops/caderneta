@@ -1,9 +1,8 @@
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import { supabase } from './lib/supabase';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './components/Layout';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { RotaProtegida } from './components/RotaProtegida';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Subscription from './pages/Subscription';
@@ -26,34 +25,7 @@ import Despesas from './pages/Despesas';
 import Afiliados from './pages/Afiliados';
 import Admin from './pages/Admin';
 
-const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const { user, profile, loading: authLoading } = useAuth();
-  const [dbPlan, setDbPlan] = useState<string | null>(null);
-  const [checkingPlan, setCheckingPlan] = useState(true);
-  const location = useLocation();
 
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-       if (!session?.user) { setCheckingPlan(false); return; }
-       supabase.from('profiles').select('plano').eq('id', session.user.id).single().then(({ data }) => {
-          if (data) setDbPlan(data.plano);
-          setCheckingPlan(false);
-       });
-    });
-  }, [location.pathname]);
-
-  if (authLoading || checkingPlan) {
-    return (
-      <div className="app-container flex items-center justify-center">
-        <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-      </div>
-    );
-  }
-  if (!user) return <Navigate to="/login" replace />;
-  const realPlan = dbPlan || profile?.plano;
-  if (realPlan !== 'pro') return <Navigate to="/subscription" replace />;
-  return <>{children}</>;
-};
 
 const SubscriptionRoute = ({ children }: { children: React.ReactNode }) => {
   const { user, loading } = useAuth();
@@ -82,7 +54,7 @@ function App() {
             </SubscriptionRoute>
           } />
 
-          <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
+          <Route element={<RotaProtegida><Layout /></RotaProtegida>}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/clientes" element={<Clientes />} />
             <Route path="/venda" element={<NovaVenda />} />
