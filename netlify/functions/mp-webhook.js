@@ -1,5 +1,5 @@
 const { createClient } = require('@supabase/supabase-js');
-const fetch = require('node-fetch');
+
 
 const supabase = createClient(
   process.env.VITE_SUPABASE_URL,
