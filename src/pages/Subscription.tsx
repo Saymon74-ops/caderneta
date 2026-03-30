@@ -1,11 +1,51 @@
 import { CheckCircle2 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { supabase } from '../lib/supabase';
 
 export default function Subscription() {
-  const { profile } = useAuth();
+  const { profile, user } = useAuth();
   const planId = import.meta.env.VITE_MP_PLAN_ID;
   const mpCheckoutUrl = `https://www.mercadopago.com.br/subscriptions/checkout?preapproval_plan_id=${planId}`;
+
+  const [isWaiting, setIsWaiting] = useState(false);
+  const [timeoutMsg, setTimeoutMsg] = useState(false);
+
+  useEffect(() => {
+    const started = sessionStorage.getItem('mp_started');
+    if (started === 'true' && profile?.plano !== 'pro') {
+      setIsWaiting(true);
+    }
+  }, [profile]);
+
+  useEffect(() => {
+    if (!isWaiting || !user) return;
+    
+    const interval = setInterval(async () => {
+      const { data } = await supabase.from('profiles').select('plano').eq('id', user.id).single();
+      if (data?.plano === 'pro') {
+        sessionStorage.removeItem('mp_started');
+        window.location.href = '/dashboard';
+      }
+    }, 5000);
+
+    const timeOut = setTimeout(() => {
+      clearInterval(interval);
+      setTimeoutMsg(true);
+      setIsWaiting(false);
+      sessionStorage.removeItem('mp_started');
+    }, 300000);
+
+    return () => {
+      clearInterval(interval);
+      clearTimeout(timeOut);
+    };
+  }, [isWaiting, user]);
+
+  const handleCheckoutClick = () => {
+    sessionStorage.setItem('mp_started', 'true');
+  };
 
   if (profile?.plano === 'pro') {
     return (
@@ -28,6 +68,18 @@ export default function Subscription() {
             Ir para o Painel
           </Link>
         </div>
+      </div>
+    );
+  }
+
+  if (isWaiting) {
+    return (
+      <div className="min-h-screen bg-[#f2f6f3] flex items-center justify-center p-6 text-center">
+         <div className="max-w-md w-full bg-white rounded-[32px] p-8 shadow-xl border border-gray-100 flex flex-col items-center">
+            <div className="w-16 h-16 border-4 border-[#1a9e5c] border-t-transparent rounded-full animate-spin mb-6"></div>
+            <h2 className="text-xl font-syne font-bold text-gray-800 mb-2">Aguardando confirmação do pagamento...</h2>
+            <p className="text-gray-500 text-sm">Isso pode levar alguns instantes. Não feche esta tela.</p>
+         </div>
       </div>
     );
   }
@@ -81,13 +133,21 @@ export default function Subscription() {
 
           <a 
             href={mpCheckoutUrl}
+            onClick={handleCheckoutClick}
             className="w-full bg-[#1a9e5c] text-white py-4 rounded-xl font-bold text-lg hover:shadow-lg hover:-translate-y-1 transition-all text-center block"
           >
             Assinar agora
           </a>
-          <p className="text-sm font-medium text-gray-400 mt-4 text-center">
-            Após o pagamento, aguarde alguns segundos e atualize a página.
-          </p>
+          
+          {timeoutMsg ? (
+            <p className="text-sm font-medium text-[#dc2626] mt-4 text-center">
+              Não identificamos seu pagamento ainda. Se já pagou, aguarde alguns minutos e atualize a página.
+            </p>
+          ) : (
+            <p className="text-sm font-medium text-gray-400 mt-4 text-center">
+              Após o pagamento, aguarde alguns segundos e atualize a página.
+            </p>
+          )}
         </div>
 
       </div>

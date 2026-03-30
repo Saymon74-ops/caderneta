@@ -1,4 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { supabase } from './lib/supabase';
 import Layout from './components/Layout';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
@@ -25,9 +27,21 @@ import Afiliados from './pages/Afiliados';
 import Admin from './pages/Admin';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const { user, profile, loading } = useAuth();
+  const { user, profile, loading: authLoading } = useAuth();
+  const [dbPlan, setDbPlan] = useState<string | null>(null);
+  const [checkingPlan, setCheckingPlan] = useState(true);
 
-  if (loading) {
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+       if (!session?.user) { setCheckingPlan(false); return; }
+       supabase.from('profiles').select('plano').eq('id', session.user.id).single().then(({ data }) => {
+          if (data) setDbPlan(data.plano);
+          setCheckingPlan(false);
+       });
+    });
+  }, []);
+
+  if (authLoading || checkingPlan) {
     return (
       <div className="app-container flex items-center justify-center">
         <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
@@ -35,7 +49,8 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     );
   }
   if (!user) return <Navigate to="/login" replace />;
-  if (profile && profile.plano !== 'pro') return <Navigate to="/subscription" replace />;
+  const realPlan = dbPlan || profile?.plano;
+  if (realPlan !== 'pro') return <Navigate to="/subscription" replace />;
   return <>{children}</>;
 };
 

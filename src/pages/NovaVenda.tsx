@@ -345,25 +345,25 @@ export default function NovaVenda() {
       )}
 
       {/* Sticky Bottom Actions */}
-      <div className="fixed bottom-[88px] left-0 right-0 max-w-[430px] mx-auto px-4 z-40">
+      <div className="fixed bottom-[70px] left-0 right-0 max-w-[430px] mx-auto px-4 py-4 z-40 bg-white shadow-[0_-8px_20px_-10px_rgba(0,0,0,0.15)] sm:bg-transparent sm:shadow-none border-t border-gray-100 sm:border-0 rounded-t-3xl sm:rounded-none">
         {step === 1 ? (
           <button 
             disabled={cantProceedStep1}
             onClick={() => setStep(2)}
-            className="btn-primary py-4 text-lg shadow-xl shadow-[#1a9e5c]/30 disabled:opacity-50 disabled:active:scale-100 disabled:shadow-none bg-[#1a9e5c]"
+            className="btn-primary py-4 w-full text-lg shadow-xl shadow-[#1a9e5c]/30 disabled:opacity-50 disabled:active:scale-100 disabled:shadow-none bg-[#1a9e5c]"
           >
-            Ir para Pagamento
+            Continuar
           </button>
         ) : (
           <button 
             disabled={cantProceedStep2}
             onClick={finalizarVenda}
-            className="btn-primary py-4 text-lg shadow-xl shadow-[#1a9e5c]/30 flex items-center justify-center gap-2 disabled:opacity-50 disabled:shadow-none bg-[#1a9e5c]"
+            className="btn-primary py-4 w-full text-lg shadow-xl shadow-[#1a9e5c]/30 flex items-center justify-center gap-2 disabled:opacity-50 disabled:shadow-none bg-[#1a9e5c]"
           >
             {loading ? (
               <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
             ) : (
-              <><CheckCircle2 size={24} /> Confirmar {tipo === 'fiado' ? 'Fiado' : 'Venda'}</>
+              <><CheckCircle2 size={24} /> Confirmar</>
             )}
           </button>
         )}

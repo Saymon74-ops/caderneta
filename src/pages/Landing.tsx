@@ -236,11 +236,8 @@ export default function Landing() {
             <span className="font-syne font-bold text-2xl text-gray-900 tracking-tight">Caderneta</span>
           </div>
           <div className="flex items-center gap-4">
-            <Link to="/login" className="hidden sm:block font-bold text-gray-600 hover:text-[#1a9e5c] transition-colors">
+            <Link to="/login" className="bg-[#1a9e5c] text-white px-8 py-2.5 rounded-full font-bold shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all w-full text-center">
               Entrar
-            </Link>
-            <Link to="/register" className="bg-[#1a9e5c] text-white px-6 py-2.5 rounded-full font-bold shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all">
-              Começar grátis
             </Link>
           </div>
         </div>
@@ -424,7 +421,7 @@ export default function Landing() {
               <div className="mb-8 border-b border-gray-100 pb-8">
                 <span className="bg-[#dcfce7] text-[#166534] px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-4 inline-block">Plano Pro</span>
                 <div className="flex items-end justify-center gap-1">
-                  <span className="text-3xl font-syne font-extrabold text-[#1a9e5c]">Teste Grátis</span>
+                  <span className="text-3xl font-syne font-extrabold text-[#1a9e5c]">Assinar Agora</span>
                 </div>
               </div>
               

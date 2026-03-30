@@ -199,13 +199,13 @@ export default function Produtos() {
               </button>
             </div>
             
-            <form className="space-y-4" onSubmit={handleSave}>
-              <div>
+            <form onSubmit={handleSave}>
+              <div className="mb-4">
                 <label className="block text-sm font-bold text-gray-700 mb-2">Nome do Produto</label>
                 <input required type="text" className="input-field bg-gray-50 border-gray-200" value={nome} onChange={e=>setNome(e.target.value)} />
               </div>
               
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
                   <label className="block text-sm font-bold text-gray-700 mb-2">Custo Unitário</label>
                   <input required type="number" step="0.01" className="input-field bg-gray-50 border-gray-200" value={custo} onChange={e=>setCusto(e.target.value)} />
@@ -216,7 +216,7 @@ export default function Produtos() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-4 mb-6">
                 <div>
                   <label className="block text-sm font-bold text-gray-700 mb-2">Estoque Inicial/Atual</label>
                   <input required type="number" className="input-field bg-gray-50 border-gray-200" value={estoque} onChange={e=>setEstoque(e.target.value)} />
