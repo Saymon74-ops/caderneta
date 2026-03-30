@@ -1,62 +1,68 @@
 const { createClient } = require('@supabase/supabase-js');
 
-
 const supabase = createClient(
   process.env.VITE_SUPABASE_URL,
   process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
-exports.handler = async (event, context) => {
+exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: 'Metodo Nao Permitido' };
+    return { statusCode: 405, body: 'Method Not Allowed' };
   }
 
   try {
     const body = JSON.parse(event.body);
-    const { type, action, data } = body;
+    console.log('Webhook recebido:', JSON.stringify(body));
 
-    if (type !== 'subscription_preapproval') {
-      return { statusCode: 200, body: 'Notificacao Diferente Ignorada' };
+    const { type, data } = body;
+
+    if (type === 'subscription_preapproval' && data?.id) {
+      const preapprovalId = data.id;
+
+      // Busca detalhes da assinatura no Mercado Pago
+      const mpResponse = await fetch(
+        `https://api.mercadopago.com/preapproval/${preapprovalId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${process.env.MP_ACCESS_TOKEN}`
+          }
+        }
+      );
+
+      const subscription = await mpResponse.json();
+      console.log('Assinatura MP:', JSON.stringify(subscription));
+
+      const email = subscription?.payer_email;
+      const status = subscription?.status;
+
+      if (email) {
+        const novoPlano = status === 'authorized' ? 'pro' : 'pendente';
+
+        // Busca usuário pelo email
+        const { data: users } = await supabase.auth.admin.listUsers();
+        const user = users?.users?.find(u => u.email === email);
+
+        if (user) {
+          await supabase
+            .from('profiles')
+            .update({ plano: novoPlano })
+            .eq('id', user.id);
+          
+          console.log(`Plano de ${email} atualizado para ${novoPlano}`);
+        }
+      }
     }
 
-    const preapprovalId = data?.id || body?.data?.id;
-    if (!preapprovalId) return { statusCode: 400, body: 'Sem identificador UUID.' };
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ received: true })
+    };
 
-    const mpToken = process.env.MP_ACCESS_TOKEN;
-    const response = await fetch(`https://api.mercadopago.com/preapproval/${preapprovalId}`, {
-      headers: { Authorization: `Bearer ${mpToken}` }
-    });
-    
-    if (!response.ok) {
-        return { statusCode: 500, body: 'Erro fatal comunicando via API do Mercado Pago' };
-    }
-
-    const subscription = await response.json();
-    const status = subscription.status;
-    const payerEmail = subscription.payer_email;
-
-    if (!payerEmail) return { statusCode: 200, body: 'Payload omitiu email.' };
-
-    const { data: usersData, error: apiErr } = await supabase.auth.admin.listUsers();
-    if (apiErr) return { statusCode: 500, body: 'Query de Administracao Auth rejeitada' };
-
-    const targetUser = usersData.users.find(u => u.email === payerEmail);
-    if (!targetUser) return { statusCode: 200, body: 'Nao reflete nossa Userbase. Acao finalizada.' };
-
-    let novoPlano = 'pendente';
-    if (status === 'authorized') {
-       novoPlano = 'pro';
-    } else if (status === 'cancelled' || status === 'paused') {
-       novoPlano = 'pendente';
-    }
-
-    const { error: profErr } = await supabase.from('profiles').update({ plano: novoPlano }).eq('id', targetUser.id);
-    if (profErr) return { statusCode: 500, body: 'Falha gravissima cruzando tabelas locais.' };
-
-    return { statusCode: 200, body: 'Success 100%' };
-
-  } catch (error) {
-    console.error(error);
-    return { statusCode: 500, body: 'Server side panic.' };
+  } catch (err) {
+    console.error('Erro webhook:', err);
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ received: true })
+    };
   }
 };
