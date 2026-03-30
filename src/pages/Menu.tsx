@@ -82,19 +82,17 @@ export default function Menu() {
             <div className="bg-[#fef3c7] border border-[#fde68a] rounded-2xl p-5 mb-6 text-center">
               <p className="text-[#b45309] font-bold text-sm uppercase tracking-wide mb-2">Plano Atual</p>
               <h3 className="font-syne font-bold text-3xl text-gray-900 mb-1">
-                {profile?.plano === 'pendente' ? 'Gratuito' : 'Pro'}
+                {profile?.plano === 'pendente' ? 'Pendente' : 'Pro'}
               </h3>
-              <p className="text-sm text-[#92400e] font-medium">Você está nos 7 dias de teste grátis.</p>
+              {profile?.plano === 'pendente' && (
+                <p className="text-sm text-[#92400e] font-medium">Você precisa ativar sua assinatura.</p>
+              )}
             </div>
 
             <div className="space-y-3 mb-6">
               <div className="flex justify-between text-sm py-2 border-b border-gray-100">
                 <span className="text-gray-500 font-medium">Status</span>
-                <span className="font-bold text-gray-800">Ativo</span>
-              </div>
-              <div className="flex justify-between text-sm py-2 border-b border-gray-100">
-                <span className="text-gray-500 font-medium">Vencimento</span>
-                <span className="font-bold text-gray-800">22/04/2026</span>
+                <span className="font-bold text-gray-800">{profile?.plano === 'pro' ? 'Ativo' : 'Pendente'}</span>
               </div>
             </div>
             

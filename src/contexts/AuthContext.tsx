@@ -6,7 +6,7 @@ interface Profile {
   id: string;
   nome: string;
   negocio: string;
-  plano: 'pendente' | 'pro' | 'gratuito';
+  plano: 'pendente' | 'pro';
 }
 
 interface AuthContextType {
@@ -43,13 +43,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         id: user.id,
         nome: user.email?.split('@')[0] || 'Usuário',
         negocio: 'Meu Negócio',
-        plano: 'gratuito'
+        plano: 'pendente'
       });
       setProfile({
         id: user.id,
         nome: user.email?.split('@')[0] || 'Usuário',
         negocio: 'Meu Negócio',
-        plano: 'gratuito'
+        plano: 'pendente'
       } as Profile);
     } else {
       setProfile(data as Profile);

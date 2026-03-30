@@ -43,11 +43,11 @@ exports.handler = async (event, context) => {
     const targetUser = usersData.users.find(u => u.email === payerEmail);
     if (!targetUser) return { statusCode: 200, body: 'Nao reflete nossa Userbase. Acao finalizada.' };
 
-    let novoPlano = 'gratuito';
+    let novoPlano = 'pendente';
     if (status === 'authorized') {
        novoPlano = 'pro';
     } else if (status === 'cancelled' || status === 'paused') {
-       novoPlano = 'gratuito';
+       novoPlano = 'pendente';
     }
 
     const { error: profErr } = await supabase.from('profiles').update({ plano: novoPlano }).eq('id', targetUser.id);

@@ -1,8 +1,36 @@
 import { CheckCircle2 } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
+import { Link } from 'react-router-dom';
 
 export default function Subscription() {
+  const { profile } = useAuth();
   const planId = import.meta.env.VITE_MP_PLAN_ID;
   const mpCheckoutUrl = `https://www.mercadopago.com.br/subscriptions/checkout?preapproval_plan_id=${planId}`;
+
+  if (profile?.plano === 'pro') {
+    return (
+      <div className="min-h-screen bg-[#f2f6f3] flex items-center justify-center p-6">
+        <div className="max-w-md w-full bg-white rounded-[32px] p-8 shadow-xl border border-gray-100 flex flex-col items-center text-center">
+          <div className="w-16 h-16 bg-[#dcfce7] rounded-full flex items-center justify-center mb-6">
+            <CheckCircle2 className="text-[#166534]" size={32} />
+          </div>
+          <h1 className="text-2xl font-bold text-gray-900 font-syne mb-2">Sua assinatura está ativa ✅</h1>
+          <p className="text-gray-500 mb-8">Obrigado por utilizar o Caderneta Pro. Seu acesso está liberado.</p>
+          <a
+            href="https://www.mercadopago.com.br/subscriptions"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full bg-[#1a9e5c] text-white py-4 rounded-xl font-bold text-lg hover:shadow-lg hover:-translate-y-1 transition-all block"
+          >
+            Gerenciar assinatura
+          </a>
+          <Link to="/dashboard" className="w-full bg-gray-100 text-gray-700 py-4 rounded-xl font-bold text-lg hover:bg-gray-200 transition-all mt-3 block">
+            Ir para o Painel
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#f2f6f3] flex items-center justify-center p-6">
@@ -23,9 +51,9 @@ export default function Subscription() {
             <text x="42" y="22" textAnchor="middle" fontSize="18" fontWeight="800" fill="white" fontFamily="sans-serif">C</text>
           </svg>
           <h1 className="text-3xl font-bold text-gray-900" style={{fontFamily: 'Syne, sans-serif'}}>
-            Caderneta
+            Ative sua conta
           </h1>
-          <p className="text-gray-500 mt-2 text-sm">Assine para desbloquear todas as funções</p>
+          <p className="text-gray-500 mt-2 text-sm">Acesso completo ao Caderneta por R$ 39,90/mês</p>
         </div>
 
         <div className="bg-white rounded-[32px] p-8 shadow-xl border border-gray-100 flex flex-col items-center">
@@ -53,12 +81,12 @@ export default function Subscription() {
 
           <a 
             href={mpCheckoutUrl}
-            className="w-full bg-[#1a9e5c] text-white py-4 rounded-xl font-bold text-lg hover:shadow-lg hover:-translate-y-1 transition-all text-center"
+            className="w-full bg-[#1a9e5c] text-white py-4 rounded-xl font-bold text-lg hover:shadow-lg hover:-translate-y-1 transition-all text-center block"
           >
             Assinar agora
           </a>
           <p className="text-sm font-medium text-gray-400 mt-4 text-center">
-            Pagamento seguro pelo Mercado Pago. Cancele quando quiser.
+            Após o pagamento, aguarde alguns segundos e atualize a página.
           </p>
         </div>
 

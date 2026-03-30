@@ -35,7 +35,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     );
   }
   if (!user) return <Navigate to="/login" replace />;
-  if (profile && profile.plano === 'gratuito' && location.pathname !== '/dashboard') return <Navigate to="/subscription" replace />;
+  if (profile && profile.plano !== 'pro') return <Navigate to="/subscription" replace />;
   return <>{children}</>;
 };
 
@@ -43,7 +43,7 @@ const SubscriptionRoute = ({ children }: { children: React.ReactNode }) => {
   const { user, profile, loading } = useAuth();
   if (loading) return null;
   if (!user) return <Navigate to="/login" replace />;
-  if (profile?.plano === 'pro') return <Navigate to="/dashboard" replace />;
+  // allow pro users to see their active subscription page
   return <>{children}</>;
 };
 

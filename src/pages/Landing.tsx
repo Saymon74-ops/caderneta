@@ -212,7 +212,7 @@ export default function Landing() {
     <div className="font-sans text-gray-900 bg-white overflow-x-hidden">
       {installPrompt && !isInstalled && (
         <div className="bg-[#1a9e5c] text-white px-6 py-3 flex items-center justify-center sm:justify-between z-[60] relative border-b-2 border-[#0d7a40] flex-wrap gap-3">
-          <span className="text-sm font-bold text-center">📲 Instale o Caderneta no seu celular — gratuito!</span>
+          <span className="text-sm font-bold text-center">📲 Instale o Caderneta no seu celular!</span>
           <button onClick={handleInstall} className="bg-white text-[#1a9e5c] px-6 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wide shadow-sm active:scale-95 transition-transform hover:shadow-md">Instalar app</button>
         </div>
       )}

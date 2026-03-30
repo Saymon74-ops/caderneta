@@ -160,15 +160,6 @@ export default function Dashboard() {
         </div>
       )}
       
-      {profile?.plano === 'gratuito' && (
-        <div className="bg-orange-100 text-orange-800 px-4 py-3 flex flex-col items-center text-center text-sm mb-4 rounded-xl shadow-sm border border-orange-200">
-          <span className="font-bold mb-2">Você está no plano gratuito.</span>
-          <Link to="/subscription" className="bg-orange-600 text-white px-4 py-2 rounded-lg font-bold shadow-sm active:scale-95 transition-transform">
-            Assine o Pro por R$ 39,90/mês
-          </Link>
-        </div>
-      )}
-
       {/* Header */}
 
       <div className="flex items-center justify-between bg-white p-4 rounded-2xl shadow-sm mb-2 border border-gray-100">
