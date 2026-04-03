@@ -40,11 +40,20 @@ export default function Dashboard() {
     window.addEventListener('beforeinstallprompt', handler);
     window.addEventListener('appinstalled', installedHandler);
     
+    if (localStorage.getItem('pwa_banner_dismissed') === 'true') {
+      setShowInstallBanner(false);
+    }
+
     return () => {
       window.removeEventListener('beforeinstallprompt', handler);
       window.removeEventListener('appinstalled', installedHandler);
     };
   }, []);
+
+  const handleDismissInstall = () => {
+    localStorage.setItem('pwa_banner_dismissed', 'true');
+    setShowInstallBanner(false);
+  };
 
   const handleInstall = async () => {
     if (!installPrompt) return;
@@ -151,11 +160,17 @@ export default function Dashboard() {
   return (
     <div className="p-4 space-y-6 pb-24 relative min-h-screen">
       {installPrompt && !isInstalled && showInstallBanner && (
-        <div className="bg-[#1a9e5c] text-white px-4 py-3 flex items-center justify-between text-xs mb-2 rounded-xl shadow-md border-b-4 border-[#0d7a40]">
-           <span className="font-bold flex-1">📲 Instale o Caderneta no seu celular!</span>
-           <div className="flex gap-3 items-center">
-             <button onClick={handleInstall} className="bg-white text-[#1a9e5c] px-3 py-1.5 rounded-full font-bold shadow-sm active:scale-95 transition-transform">Instalar</button>
-             <button onClick={() => setShowInstallBanner(false)} className="opacity-80 hover:opacity-100 p-1 bg-white/10 rounded-full"><X size={16}/></button>
+        <div className="bg-[#1a9e5c] text-white px-4 py-3 flex items-center justify-between mb-2 rounded-xl shadow-md border-b-4 border-[#0d7a40]">
+           <div className="flex-1">
+             <div className="font-bold flex items-center gap-2 text-sm">
+               <img src="/pwa-192x192.png" alt="Caderneta" className="w-6 h-6 rounded-md bg-white"/>
+               <span>Instale o Caderneta na tela inicial!</span>
+             </div>
+             <p className="text-xs text-white/90 mt-0.5 ml-8">Acesse mais rápido, funciona como app</p>
+           </div>
+           <div className="flex gap-2 items-center ml-2">
+             <button onClick={handleInstall} className="bg-white text-[#1a9e5c] text-xs px-3 py-1.5 rounded-full font-bold shadow-sm active:scale-95 transition-transform">Instalar</button>
+             <button onClick={handleDismissInstall} className="opacity-80 hover:opacity-100 p-1 bg-white/10 rounded-full"><X size={16}/></button>
            </div>
         </div>
       )}
