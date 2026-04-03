@@ -104,14 +104,14 @@ export default function Subscription() {
           <h1 className="text-3xl font-bold text-gray-900" style={{fontFamily: 'Syne, sans-serif'}}>
             Ative sua conta
           </h1>
-          <p className="text-gray-500 mt-2 text-sm">Acesso completo ao Caderneta por R$ 39,90/mês</p>
+          <p className="text-gray-500 mt-2 text-sm">Acesso completo ao Caderneta por R$ 19,90/mês</p>
         </div>
 
         <div className="bg-white rounded-[32px] p-8 shadow-xl border border-gray-100 flex flex-col items-center">
           <span className="bg-[#dcfce7] text-[#166534] px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-4 inline-block">Plano Pro</span>
           
           <div className="flex items-end justify-center gap-1 mb-8">
-            <span className="text-[2rem] font-extrabold text-[#1a9e5c]" style={{fontFamily: 'Syne, sans-serif'}}>R$39,90</span>
+            <span className="text-[2rem] font-extrabold text-[#1a9e5c]" style={{fontFamily: 'Syne, sans-serif'}}>R$19,90</span>
             <span className="text-xl text-gray-500 font-medium mb-1">/mês</span>
           </div>
 
