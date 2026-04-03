@@ -101,8 +101,24 @@ export default function Admin() {
 
   if (authLoading) return <div className="p-8 text-center">Carregando...</div>;
   
-  if (!user || user.email !== import.meta.env.VITE_ADMIN_EMAIL) {
-    return <Navigate to="/dashboard" replace />;
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (user.email !== import.meta.env.VITE_ADMIN_EMAIL) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-[#f2f6f3] p-4 text-center">
+        <XCircle size={64} className="text-red-500 mb-4" />
+        <h1 className="text-3xl font-syne font-bold text-gray-900 mb-2">Acesso Negado</h1>
+        <p className="text-gray-600 mb-6 font-medium">Você não tem permissão para acessar o painel administrativo.</p>
+        <button 
+          onClick={() => window.location.href = '/dashboard'}
+          className="bg-[#1a9e5c] hover:bg-[#166534] text-white px-6 py-3 rounded-full font-bold transition-colors"
+        >
+          Voltar ao Dashboard
+        </button>
+      </div>
+    );
   }
 
   return (
