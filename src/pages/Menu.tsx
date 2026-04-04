@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { 
-  Settings, Package, PieChart, Users, Receipt, 
-  ChevronRight, X, ExternalLink, CreditCard 
+import {
+  Settings, Package, PieChart, Users, Receipt,
+  ChevronRight, X, ExternalLink, CreditCard
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -36,7 +36,7 @@ export default function Menu() {
 
       <div className="space-y-3">
         {menuItens.map((item, idx) => (
-          <button 
+          <button
             key={idx}
             onClick={() => navigate(item.path)}
             className="w-full card p-4 flex items-center justify-between hover:border-[#1a9e5c]/30 hover:shadow-md transition-all active:scale-95 border border-transparent"
@@ -51,7 +51,7 @@ export default function Menu() {
           </button>
         ))}
 
-        <button 
+        <button
           onClick={() => setShowPlano(true)}
           className="w-full card p-4 flex items-center justify-between border-2 border-[#fef3c7] bg-[#fffbeb] hover:bg-[#fef3c7]/50 transition-colors active:scale-95"
         >
@@ -78,7 +78,7 @@ export default function Menu() {
                 <X size={20} />
               </button>
             </div>
-            
+
             <div className="bg-[#fef3c7] border border-[#fde68a] rounded-2xl p-5 mb-6 text-center">
               <p className="text-[#b45309] font-bold text-sm uppercase tracking-wide mb-2">Plano Atual</p>
               <h3 className="font-syne font-bold text-3xl text-gray-900 mb-1">
@@ -95,7 +95,7 @@ export default function Menu() {
                 <span className="font-bold text-gray-800">{profile?.plano === 'pro' ? 'Ativo' : 'Pendente'}</span>
               </div>
             </div>
-            
+
 
           </div>
         </div>
