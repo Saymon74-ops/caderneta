@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import {
   Settings, Package, PieChart, Users, Receipt,
-  ChevronRight, X, ExternalLink, CreditCard
+  ChevronRight, X, CreditCard
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
