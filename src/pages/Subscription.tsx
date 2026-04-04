@@ -6,7 +6,7 @@ import { supabase } from '../lib/supabase';
 
 export default function Subscription() {
   const { profile, user } = useAuth();
-  const mpCheckoutUrl = 'https://www.mercadopago.com.br/subscriptions/checkout?preapproval_plan_id=371238157b4f4034a5e2830a56fcf66e';
+  const caktoCheckoutUrl = import.meta.env.VITE_CAKTO_CHECKOUT_URL;
 
   const [isWaiting, setIsWaiting] = useState(false);
   const [timeoutMsg, setTimeoutMsg] = useState(false);
@@ -55,14 +55,7 @@ export default function Subscription() {
           </div>
           <h1 className="text-2xl font-bold text-gray-900 font-syne mb-2">Sua assinatura está ativa ✅</h1>
           <p className="text-gray-500 mb-8">Obrigado por utilizar o Caderneta Pro. Seu acesso está liberado.</p>
-          <a
-            href="https://www.mercadopago.com.br/subscriptions"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full bg-[#1a9e5c] text-white py-4 rounded-xl font-bold text-lg hover:shadow-lg hover:-translate-y-1 transition-all block"
-          >
-            Gerenciar assinatura
-          </a>
+
           <Link to="/dashboard" className="w-full bg-gray-100 text-gray-700 py-4 rounded-xl font-bold text-lg hover:bg-gray-200 transition-all mt-3 block">
             Ir para o Painel
           </Link>
@@ -131,7 +124,7 @@ export default function Subscription() {
           </ul>
 
           <a 
-            href={mpCheckoutUrl}
+            href={caktoCheckoutUrl}
             onClick={handleCheckoutClick}
             className="w-full bg-[#1a9e5c] text-white py-4 rounded-xl font-bold text-lg hover:shadow-lg hover:-translate-y-1 transition-all text-center block"
           >

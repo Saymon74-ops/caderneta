@@ -96,14 +96,7 @@ export default function Menu() {
               </div>
             </div>
             
-            <a 
-              href="https://mercadopago.com.br" 
-              target="_blank" 
-              rel="noreferrer"
-              className="w-full bg-[#1a9e5c] text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 active:scale-95 transition-transform"
-            >
-              Gerenciar no Mercado Pago <ExternalLink size={18} />
-            </a>
+
           </div>
         </div>
       )}
