@@ -16,8 +16,8 @@ exports.handler = async (event) => {
 
     // Eventos de pagamento aprovado
     const eventType = body.event || body.type || body.action;
-    const email = body.customer?.email || body.buyer?.email || body.email;
-    const status = body.status || body.payment_status;
+    const email = body.data?.customer?.email || body.customer?.email || body.buyer?.email || body.email;
+    const status = body.data?.status || body.status || body.payment_status;
 
     if (email) {
       let novoPlano = 'pendente';
