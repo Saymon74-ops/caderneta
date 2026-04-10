@@ -158,7 +158,7 @@ export default function NovaVenda() {
   const cantProceedStep2 = loading || (tipo === 'fiado' && (!vencimento || parcelas < 1));
 
   return (
-    <div className="p-4 space-y-6 pb-28 h-full flex flex-col min-h-screen">
+    <div className="p-4 space-y-6 pb-36 h-full flex flex-col min-h-screen">
       <div className="flex items-center justify-between mb-2">
         <h1 className="text-2xl font-syne font-bold text-gray-800">Vender</h1>
         <div className="bg-[#1a9e5c] text-white px-4 py-1.5 rounded-full text-sm font-bold shadow-md">
@@ -289,12 +289,16 @@ export default function NovaVenda() {
                 <label className="block text-sm font-bold text-[#b45309] mb-2 flex items-center gap-2">
                   <Calendar size={18} /> Vencimento 1ª Parcela
                 </label>
-                <input 
-                  type="date" 
-                  className="input-field border-[#b45309]/30 focus:ring-[#b45309] focus:border-[#b45309] bg-white font-medium text-gray-700" 
-                  value={vencimento}
-                  onChange={(e) => setVencimento(e.target.value)}
-                />
+                  <input 
+                    type="date" 
+                    className="input-field border-[#b45309]/30 focus:ring-[#b45309] focus:border-[#b45309] bg-white font-medium text-gray-700" 
+                    value={vencimento}
+                    max="2099-12-31"
+                    onChange={(e) => {
+                      if (e.target.value.length > 10) return;
+                      setVencimento(e.target.value);
+                    }}
+                  />
               </div>
               
               <div>
@@ -345,7 +349,7 @@ export default function NovaVenda() {
       )}
 
       {/* Sticky Bottom Actions */}
-      <div className="fixed bottom-[70px] left-0 right-0 max-w-[430px] mx-auto px-4 py-4 z-40 bg-white shadow-[0_-8px_20px_-10px_rgba(0,0,0,0.15)] sm:bg-transparent sm:shadow-none border-t border-gray-100 sm:border-0 rounded-t-3xl sm:rounded-none">
+      <div className="fixed bottom-[90px] left-0 right-0 max-w-[430px] mx-auto px-4 py-4 z-40 bg-white shadow-[0_-8px_20px_-10px_rgba(0,0,0,0.15)] sm:bg-transparent sm:shadow-none border-t border-gray-100 sm:border-0 rounded-t-3xl sm:rounded-none">
         {step === 1 ? (
           <button 
             disabled={cantProceedStep1}

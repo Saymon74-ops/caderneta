@@ -265,6 +265,7 @@ export default function Fiados() {
                     step="0.01"
                     className="input-field pl-10 text-lg font-bold" 
                     value={valorPgto}
+                    onFocus={(e) => e.target.select()}
                     onChange={(e) => setValorPgto(e.target.value)}
                   />
                 </div>
