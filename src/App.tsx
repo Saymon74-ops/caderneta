@@ -22,7 +22,7 @@ import Relatorios from './pages/Relatorios';
 import Configuracoes from './pages/Configuracoes';
 import Notificacoes from './pages/Notificacoes';
 import Despesas from './pages/Despesas';
-import Afiliados from './pages/Afiliados';
+
 import Admin from './pages/Admin';
 
 
@@ -66,7 +66,7 @@ function App() {
             <Route path="/configuracoes" element={<Configuracoes />} />
             <Route path="/notificacoes" element={<Notificacoes />} />
             <Route path="/despesas" element={<Despesas />} />
-            <Route path="/afiliados" element={<Afiliados />} />
+
           </Route>
         </Routes>
       </BrowserRouter>

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
-import { CheckCircle2, ChevronDown, Smartphone, BookOpen, TrendingUp, Package, Users, PieChart, Quote } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { CheckCircle2, ChevronDown, Smartphone, BookOpen, TrendingUp, Package, Users, PieChart, Quote, Play } from 'lucide-react';
 
 function FadeIn({ children, delay = 0 }: { children: React.ReactNode, delay?: number }) {
   const [isVisible, setIsVisible] = useState(false);
@@ -170,15 +170,11 @@ function MockupApp({ type }: { type: 'dashboard' | 'fiados' | 'relatorio' }) {
 export default function Landing() {
   const [installPrompt, setInstallPrompt] = useState<any>(null);
   const [isInstalled, setIsInstalled] = useState(false);
+  const VIDEO_URL = ""; // colocar URL do YouTube aqui
 
-  const [searchParams] = useSearchParams();
 
-  useEffect(() => {
-    const ref = searchParams.get('ref');
-    if (ref) {
-      localStorage.setItem('ref_afiliado', ref);
-    }
-  }, [searchParams]);
+
+
 
   useEffect(() => {
     const handler = (e: any) => {
@@ -287,6 +283,41 @@ export default function Landing() {
             <div className="relative">
               <div className="absolute -inset-4 bg-gradient-to-tr from-[#1a9e5c]/20 to-transparent blur-2xl rounded-[60px]"></div>
               <MockupApp type="dashboard" />
+            </div>
+          </FadeIn>
+        </div>
+      </section>
+
+      {/* SEÇÃO VÍDEO */}
+      <section className="py-24 bg-[#fafcfa] border-t border-b border-gray-100">
+        <div className="max-w-[900px] mx-auto px-6 text-center">
+          <FadeIn>
+            <h2 className="text-3xl lg:text-5xl font-syne font-bold text-gray-900 mb-4">
+              Veja o Caderneta em ação
+            </h2>
+            <p className="text-xl text-gray-500 font-medium mb-12">
+              Simples, rápido e feito para o seu negócio
+            </p>
+          </FadeIn>
+          
+          <FadeIn delay={200}>
+            <div className="w-full aspect-video rounded-3xl overflow-hidden shadow-2xl border-[6px] border-white bg-gray-200 relative mb-8">
+              {VIDEO_URL ? (
+                <iframe 
+                  src={VIDEO_URL} 
+                  title="Caderneta em ação" 
+                  className="w-full h-full absolute inset-0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                  allowFullScreen
+                ></iframe>
+              ) : (
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-100 border border-gray-200 rounded-2xl">
+                  <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg mb-4 text-[#1a9e5c]">
+                    <Play size={40} className="ml-2" fill="#1a9e5c" />
+                  </div>
+                  <span className="text-lg font-bold text-gray-400">Vídeo em breve</span>
+                </div>
+              )}
             </div>
           </FadeIn>
         </div>

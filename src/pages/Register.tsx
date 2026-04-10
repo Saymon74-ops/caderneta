@@ -11,7 +11,7 @@ export default function Register() {
   const [loading, setLoading] = useState(false);
   const [sucesso, setSucesso] = useState(false);
 
-  const refCode = localStorage.getItem('ref_afiliado') || null;
+
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,10 +34,8 @@ export default function Register() {
             id: data.user.id,
             nome,
             negocio,
-            plano: 'pendente',
-            codigo_afiliado: refCode
+            plano: 'pendente'
          });
-         if (refCode) localStorage.removeItem('ref_afiliado');
          setSucesso(true);
        }
     }
