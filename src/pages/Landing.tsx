@@ -167,14 +167,73 @@ function MockupApp({ type }: { type: 'dashboard' | 'fiados' | 'relatorio' }) {
   );
 }
 
+function ImageCarousel() {
+  const images = [
+    '/slide1.jpg',
+    '/slide2.jpg',
+    '/slide3.jpg',
+    '/slide4.jpg'
+  ];
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % images.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [images.length]);
+
+  return (
+    <div className="w-full max-w-[450px] mx-auto relative overflow-visible rounded-[2.5rem] bg-transparent flex items-center justify-center">
+      <div className="w-full aspect-[4/5] relative">
+        {images.map((src, i) => (
+          <img 
+            key={i}
+            src={src}
+            className={`absolute top-0 left-0 w-full h-full object-contain transition-all duration-700 ease-in-out ${
+              i === currentIndex ? 'opacity-100 z-10 translate-x-0 scale-100' : 'opacity-0 z-0 scale-95'
+            }`}
+            style={{
+              transform: i === currentIndex ? 'translateX(0)' : i < currentIndex ? 'translateX(-20px)' : 'translateX(20px)'
+            }}
+            alt={`App slide ${i + 1}`}
+          />
+        ))}
+      </div>
+      
+      <button 
+        onClick={() => setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1))}
+        className="absolute -left-4 sm:-left-12 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-full flex items-center justify-center shadow-[0_5px_15px_rgba(0,0,0,0.1)] text-[#1a9e5c] hover:scale-110 hover:bg-[#1a9e5c] hover:text-white transition-all z-20 focus:outline-none"
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mr-1"><path d="m15 18-6-6 6-6"/></svg>
+      </button>
+
+      <button 
+        onClick={() => setCurrentIndex((prev) => (prev + 1) % images.length)}
+        className="absolute -right-4 sm:-right-12 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-full flex items-center justify-center shadow-[0_5px_15px_rgba(0,0,0,0.1)] text-[#1a9e5c] hover:scale-110 hover:bg-[#1a9e5c] hover:text-white transition-all z-20 focus:outline-none"
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="ml-1"><path d="m9 18 6-6-6-6"/></svg>
+      </button>
+
+      <div className="absolute -bottom-10 left-0 right-0 flex justify-center gap-3 z-20">
+        {images.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setCurrentIndex(i)}
+            className={`h-2.5 rounded-full transition-all duration-300 shadow-sm ${
+              i === currentIndex ? 'bg-[#1a9e5c] w-8' : 'bg-gray-300/80 w-2.5 hover:bg-gray-400'
+            }`}
+            aria-label={`Ir para o slide ${i + 1}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function Landing() {
   const [installPrompt, setInstallPrompt] = useState<any>(null);
   const [isInstalled, setIsInstalled] = useState(false);
-  const VIDEO_URL = ""; // colocar URL do YouTube aqui
-
-
-
-
 
   useEffect(() => {
     const handler = (e: any) => {
@@ -288,37 +347,20 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* SEÇÃO VÍDEO */}
-      <section className="py-24 bg-[#fafcfa] border-t border-b border-gray-100">
+      {/* SEÇÃO CARROSSEL */}
+      <section className="py-24 bg-[#fafcfa] border-t border-b border-gray-100 overflow-hidden">
         <div className="max-w-[900px] mx-auto px-6 text-center">
           <FadeIn>
             <h2 className="text-3xl lg:text-5xl font-syne font-bold text-gray-900 mb-4">
               Veja o Caderneta em ação
             </h2>
-            <p className="text-xl text-gray-500 font-medium mb-12">
-              Simples, rápido e feito para o seu negócio
+            <p className="text-xl text-gray-500 font-medium mb-16">
+              Passe para o lado e veja como é simples e rápido
             </p>
           </FadeIn>
           
           <FadeIn delay={200}>
-            <div className="w-full aspect-video rounded-3xl overflow-hidden shadow-2xl border-[6px] border-white bg-gray-200 relative mb-8">
-              {VIDEO_URL ? (
-                <iframe 
-                  src={VIDEO_URL} 
-                  title="Caderneta em ação" 
-                  className="w-full h-full absolute inset-0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                  allowFullScreen
-                ></iframe>
-              ) : (
-                <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-100 border border-gray-200 rounded-2xl">
-                  <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg mb-4 text-[#1a9e5c]">
-                    <Play size={40} className="ml-2" fill="#1a9e5c" />
-                  </div>
-                  <span className="text-lg font-bold text-gray-400">Vídeo em breve</span>
-                </div>
-              )}
-            </div>
+            <ImageCarousel />
           </FadeIn>
         </div>
       </section>
