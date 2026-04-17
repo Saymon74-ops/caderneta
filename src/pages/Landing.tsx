@@ -347,23 +347,7 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* SEÇÃO CARROSSEL */}
-      <section className="py-24 bg-[#fafcfa] border-t border-b border-gray-100 overflow-hidden">
-        <div className="max-w-[900px] mx-auto px-6 text-center">
-          <FadeIn>
-            <h2 className="text-3xl lg:text-5xl font-syne font-bold text-gray-900 mb-4">
-              Veja o Caderneta em ação
-            </h2>
-            <p className="text-xl text-gray-500 font-medium mb-16">
-              Passe para o lado e veja como é simples e rápido
-            </p>
-          </FadeIn>
-          
-          <FadeIn delay={200}>
-            <ImageCarousel />
-          </FadeIn>
-        </div>
-      </section>
+
 
       {/* SEÇÃO 2: PROBLEMAS */}
       <section className="py-24 bg-[#f2f6f3]">
@@ -425,20 +409,21 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* SEÇÃO 4: PRINTS */}
+      {/* SEÇÃO 4: CARROSSEL */}
       <section className="py-24 bg-[#f2f6f3] overflow-hidden">
-        <div className="max-w-[1100px] mx-auto px-6">
+        <div className="max-w-[900px] mx-auto px-6 text-center">
           <FadeIn>
-            <h2 className="text-4xl lg:text-5xl font-syne font-bold text-gray-900 text-center mb-16">
+            <h2 className="text-4xl lg:text-5xl font-syne font-bold text-gray-900 mb-4">
               Veja o Caderneta em ação
             </h2>
+            <p className="text-xl text-gray-500 font-medium mb-16">
+              Passe para o lado e veja como é simples e rápido
+            </p>
           </FadeIn>
           
-          <div className="flex justify-center gap-8 flex-wrap lg:flex-nowrap">
-            <FadeIn delay={100}><MockupApp type="dashboard" /></FadeIn>
-            <FadeIn delay={300}><MockupApp type="fiados" /></FadeIn>
-            <FadeIn delay={500}><MockupApp type="relatorio" /></FadeIn>
-          </div>
+          <FadeIn delay={200}>
+            <ImageCarousel />
+          </FadeIn>
         </div>
       </section>
 
