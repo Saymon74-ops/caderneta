@@ -176,14 +176,14 @@ export default function NovaVenda() {
         <div className="space-y-6 flex-1 animate-in fade-in">
           <div className="card border-0 shadow-sm p-5 space-y-4">
             <div>
-              <label className="block text-sm font-bold text-gray-700 mb-2">Cliente</label>
+              <label className="block text-sm font-bold text-gray-700 mb-2">Para quem é essa venda?</label>
               <select 
                 className="input-field bg-gray-50 border-gray-200"
                 value={clienteOption}
                 onChange={(e) => setClienteOption(e.target.value)}
               >
                 <option value="">Selecione um cliente...</option>
-                <option value="avulso">👤 Cliente Avulso (Não cadastrado)</option>
+                <option value="avulso">👤 Cliente sem cadastro</option>
                 {clientesDb.map((c) => <option key={c.id} value={c.id}>{c.nome}</option>)}
               </select>
             </div>
@@ -194,30 +194,18 @@ export default function NovaVenda() {
                 <input 
                   type="text" 
                   className="input-field bg-gray-50 border-gray-200" 
-                  placeholder="Nome rápido para registro..."
+                  placeholder="Nome rápido para anotar..."
                   value={clienteAvulso}
                   onChange={e => setClienteAvulso(e.target.value)} 
                 />
               </div>
             )}
-
-            <div>
-              <label className="block text-sm font-bold text-gray-700 mb-2">Vendedor (Opcional)</label>
-              <select 
-                className="input-field bg-gray-50 border-gray-200"
-                value={vendedorId}
-                onChange={(e) => setVendedorId(e.target.value)}
-              >
-                <option value="">Selecione quem está vendendo...</option>
-                {vendedoresDb.map((v) => <option key={v.id} value={v.id}>{v.nome}</option>)}
-              </select>
-            </div>
           </div>
 
           <div className="card shadow-sm p-0 overflow-hidden">
             <div className="px-5 py-4 border-b border-gray-100 bg-gray-50 flex items-center gap-2">
               <ShoppingBag size={18} className="text-[#1a9e5c]" />
-              <h3 className="font-bold text-gray-800">Produtos</h3>
+              <h3 className="font-bold text-gray-800">O que vai levar?</h3>
             </div>
             
             {produtosDb.length === 0 ? (
@@ -265,7 +253,7 @@ export default function NovaVenda() {
       {step === 2 && (
         <div className="space-y-6 flex-1 animate-in fade-in slide-in-from-right-4">
           <div className="card">
-            <h3 className="font-syne font-bold text-gray-800 mb-4 text-lg">Forma de Pagamento</h3>
+            <h3 className="font-syne font-bold text-gray-800 mb-4 text-lg">Como vai pagar?</h3>
             <div className="grid grid-cols-2 gap-4">
               <button 
                 onClick={() => setTipo('pago')}
@@ -274,7 +262,7 @@ export default function NovaVenda() {
                 <div className={`w-12 h-12 rounded-full flex items-center justify-center text-xl ${tipo === 'pago' ? 'bg-[#1a9e5c] text-white shadow-sm' : 'bg-gray-100'}`}>
                   💰
                 </div>
-                <span className="font-bold text-center">Pago Agora</span>
+                <span className="font-bold text-center">💵 Pagou agora</span>
               </button>
               
               <button 
@@ -284,16 +272,30 @@ export default function NovaVenda() {
                 <div className={`w-12 h-12 rounded-full flex items-center justify-center text-xl ${tipo === 'fiado' ? 'bg-[#b45309] text-white shadow-sm' : 'bg-gray-100'}`}>
                   📒
                 </div>
-                <span className="font-bold text-center">Deixar Fiado</span>
+                <span className="font-bold text-center">📒 Vai ficar devendo</span>
               </button>
             </div>
+          </div>
+
+          <div className="card border border-gray-100 p-4">
+            <label className="block text-sm font-bold text-gray-700 mb-2">
+              Quem fez essa venda? <span className="font-normal text-gray-400">(opcional)</span>
+            </label>
+            <select
+              className="input-field bg-gray-50 border-gray-200"
+              value={vendedorId}
+              onChange={(e) => setVendedorId(e.target.value)}
+            >
+              <option value="">Ninguém selecionado</option>
+              {vendedoresDb.map((v) => <option key={v.id} value={v.id}>{v.nome}</option>)}
+            </select>
           </div>
 
           {tipo === 'fiado' && (
             <div className="card border-2 border-[#fcd34d] bg-[#fffbeb] shadow-none space-y-4 animate-in fade-in">
               <div>
                 <label className="block text-sm font-bold text-[#b45309] mb-2 flex items-center gap-2">
-                  <Calendar size={18} /> Vencimento 1ª Parcela
+                  <Calendar size={18} /> Quando vai pagar?
                 </label>
 
                 <div className="flex gap-2 mb-3">
@@ -336,7 +338,7 @@ export default function NovaVenda() {
               
               <div>
                 <label className="block text-sm font-bold text-[#b45309] mb-2 flex items-center gap-2">
-                  Parcelar em
+                  Dividir em quantas vezes?
                 </label>
                 <select 
                   className="input-field border-[#b45309]/30 focus:ring-[#b45309] focus:border-[#b45309] bg-white font-medium text-gray-700"
@@ -350,7 +352,7 @@ export default function NovaVenda() {
                 </select>
                 {parcelas > 1 && (
                   <p className="text-xs text-[#b45309] font-medium mt-2">
-                    Gerará {parcelas} fiados consecutivos de R$ {(total / parcelas).toFixed(2)} separados por {modoVencimento === 'quinzenal' ? '15 dias' : '1 mês'} cada.
+                    Vai criar {parcelas} fiados de R$ {(total / parcelas).toFixed(2)}, um a cada {modoVencimento === 'quinzenal' ? '15 dias' : 'mês'}.
                   </p>
                 )}
               </div>
@@ -361,22 +363,22 @@ export default function NovaVenda() {
             <h4 className="font-bold text-gray-500 text-xs uppercase tracking-wider mb-3">Resumo da Venda</h4>
             <div className="space-y-2 text-sm text-gray-600 mb-4 font-medium">
               <div className="flex justify-between border-b border-gray-200 pb-2">
-                <span>Cliente:</span>
+                <span>Pra quem:</span>
                 <span className="font-bold text-gray-800">{getClienteNome()}</span>
               </div>
               <div className="flex justify-between border-b border-gray-200 pb-2">
-                <span>Total de Itens:</span>
+                <span>Itens:</span>
                 <span className="font-bold text-gray-800">{carrinho.reduce((acc, i) => acc + i.qtd, 0)} UN</span>
               </div>
             </div>
             <div className="flex justify-between items-center font-syne font-bold text-xl text-gray-800 bg-white p-3 rounded-xl shadow-sm border border-gray-100">
-              <span>Total a pagar:</span>
+              <span>Total:</span>
               <span className="text-[#1a9e5c]">R$ {total.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
             </div>
           </div>
           
           <div className="flex items-center gap-2 justify-center pt-2">
-             <button onClick={() => setStep(1)} className="font-bold text-[#1a9e5c] text-sm hover:underline">← Voltar para seleção</button>
+             <button onClick={() => setStep(1)} className="font-bold text-[#1a9e5c] text-sm hover:underline">← Voltar</button>
           </div>
         </div>
       )}
@@ -389,7 +391,7 @@ export default function NovaVenda() {
             onClick={() => setStep(2)}
             className="btn-primary py-4 w-full text-lg shadow-xl shadow-[#1a9e5c]/30 disabled:opacity-50 disabled:active:scale-100 disabled:shadow-none bg-[#1a9e5c]"
           >
-            Continuar
+            Escolher como vai pagar →
           </button>
         ) : (
           <button 
@@ -400,7 +402,7 @@ export default function NovaVenda() {
             {loading ? (
               <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
             ) : (
-              <><CheckCircle2 size={24} /> Confirmar</>
+              <><CheckCircle2 size={24} /> ✅ Registrar venda</>
             )}
           </button>
         )}
