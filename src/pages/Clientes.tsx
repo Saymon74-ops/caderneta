@@ -26,7 +26,6 @@ export default function Clientes() {
   const [enderecoBairro, setEnderecoBairro] = useState('');
   const [enderecoCidade, setEnderecoCidade] = useState('');
   const [enderecoZonaRural, setEnderecoZonaRural] = useState(false);
-  const [nis, setNis] = useState('');
   const [observacoes, setObservacoes] = useState('');
 
   // Modal Perfil Cliente
@@ -65,7 +64,6 @@ export default function Clientes() {
       setEnderecoBairro(cliente.endereco_bairro || '');
       setEnderecoCidade(cliente.endereco_cidade || '');
       setEnderecoZonaRural(cliente.endereco_zona_rural || false);
-      setNis(cliente.nis || '');
       setObservacoes(cliente.observacoes || '');
     } else {
       setEditId(null);
@@ -78,7 +76,6 @@ export default function Clientes() {
       setEnderecoBairro('');
       setEnderecoCidade('');
       setEnderecoZonaRural(false);
-      setNis('');
       setObservacoes('');
     }
     setShowForm(true);
@@ -122,7 +119,6 @@ export default function Clientes() {
       endereco_bairro: enderecoBairro || null,
       endereco_cidade: enderecoCidade || null,
       endereco_zona_rural: enderecoZonaRural,
-      nis: nis || null,
       observacoes: observacoes || null,
     };
 
@@ -349,15 +345,6 @@ export default function Clientes() {
                 </div>
               </div>
 
-              {/* Programas Sociais */}
-              <div className="space-y-3">
-                <h3 className="text-sm font-bold text-[#1a9e5c] uppercase tracking-wider border-b border-gray-100 pb-1">📄 Programas Sociais</h3>
-                <div>
-                  <label className="block text-xs font-bold text-gray-700 mb-1">NIS (Bolsa Família)</label>
-                  <input type="text" className="input-field bg-gray-50 text-sm" value={nis} onChange={e=>setNis(e.target.value)} placeholder="Apenas números..." />
-                </div>
-              </div>
-
               {/* Observações */}
               <div className="space-y-3">
                 <h3 className="text-sm font-bold text-[#1a9e5c] uppercase tracking-wider border-b border-gray-100 pb-1">📝 Observações</h3>
@@ -445,7 +432,6 @@ export default function Clientes() {
                     <div className="space-y-2 text-xs text-gray-600">
                       {perfilAtivo.cpf && <p><strong className="text-gray-800">CPF:</strong> {perfilAtivo.cpf}</p>}
                       {perfilAtivo.data_nascimento && <p><strong className="text-gray-800">Nascimento:</strong> {new Date(perfilAtivo.data_nascimento).toLocaleDateString('pt-BR', { timeZone: 'UTC' })}</p>}
-                      {perfilAtivo.nis && <p><strong className="text-gray-800">NIS (Bolsa Família):</strong> {perfilAtivo.nis}</p>}
                       
                       {perfilAtivo.endereco_rua && (
                         <p className="mt-2 pt-2 border-t border-gray-50">
