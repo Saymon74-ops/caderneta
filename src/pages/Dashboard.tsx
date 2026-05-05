@@ -27,6 +27,9 @@ export default function Dashboard() {
   const [showInstallBanner, setShowInstallBanner] = useState(true);
 
   useEffect(() => {
+    const isRunningAsPWA = window.matchMedia('(display-mode: standalone)').matches;
+    if (isRunningAsPWA) setIsInstalled(true);
+
     const handler = (e: any) => {
       e.preventDefault();
       setInstallPrompt(e);
@@ -40,8 +43,8 @@ export default function Dashboard() {
     window.addEventListener('beforeinstallprompt', handler);
     window.addEventListener('appinstalled', installedHandler);
     
-    if (localStorage.getItem('pwa_banner_dismissed') === 'true') {
-      setShowInstallBanner(false);
+    if (localStorage.getItem('pwa_installed') === 'true') {
+      setIsInstalled(true);
     }
 
     return () => {
@@ -51,7 +54,6 @@ export default function Dashboard() {
   }, []);
 
   const handleDismissInstall = () => {
-    localStorage.setItem('pwa_banner_dismissed', 'true');
     setShowInstallBanner(false);
   };
 
@@ -59,7 +61,10 @@ export default function Dashboard() {
     if (!installPrompt) return;
     installPrompt.prompt();
     const result = await installPrompt.userChoice;
-    if (result.outcome === 'accepted') setIsInstalled(true);
+    if (result.outcome === 'accepted') {
+      localStorage.setItem('pwa_installed', 'true');
+      setIsInstalled(true);
+    }
   };
 
   useEffect(() => {
