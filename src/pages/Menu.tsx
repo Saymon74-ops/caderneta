@@ -12,12 +12,11 @@ export default function Menu() {
   const [showPlano, setShowPlano] = useState(false);
 
   const menuItens = [
-    { title: 'Estoque', icon: <Package size={20} />, path: '/produtos', bg: 'bg-indigo-100/50', text: 'text-indigo-600' },
-    { title: 'Relatórios', icon: <PieChart size={20} />, path: '/relatorios', bg: 'bg-emerald-100/50', text: 'text-emerald-700' },
-    { title: 'Vendedores', icon: <Users size={20} />, path: '/vendedores', bg: 'bg-blue-100/50', text: 'text-blue-600' },
-    { title: 'Despesas', icon: <Receipt size={20} />, path: '/despesas', bg: 'bg-rose-100/50', text: 'text-rose-600' },
-
-    { title: 'Configurações', icon: <Settings size={20} />, path: '/configuracoes', bg: 'bg-gray-200/50', text: 'text-gray-700' },
+    { title: 'Meus Produtos', subtitle: 'Controle o que você vende e o estoque', icon: <Package size={20} />, path: '/produtos', bg: 'bg-indigo-100/50', text: 'text-indigo-600' },
+    { title: 'Ver Relatórios', subtitle: 'Quanto vendeu, lucrou e recebeu', icon: <PieChart size={20} />, path: '/relatorios', bg: 'bg-emerald-100/50', text: 'text-emerald-700' },
+    { title: 'Vendedores', subtitle: 'Cadastre quem trabalha com você', icon: <Users size={20} />, path: '/vendedores', bg: 'bg-blue-100/50', text: 'text-blue-600' },
+    { title: 'Minhas Despesas', subtitle: 'O que você gastou no negócio', icon: <Receipt size={20} />, path: '/despesas', bg: 'bg-rose-100/50', text: 'text-rose-600' },
+    { title: 'Configurações', subtitle: 'Nome, senha e dados da sua conta', icon: <Settings size={20} />, path: '/configuracoes', bg: 'bg-gray-200/50', text: 'text-gray-700' },
   ];
 
   return (
@@ -45,7 +44,10 @@ export default function Menu() {
               <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${item.bg} ${item.text}`}>
                 {item.icon}
               </div>
-              <span className="font-bold text-gray-800 text-lg">{item.title}</span>
+              <div className="text-left">
+                <span className="font-bold text-gray-800 text-base block">{item.title}</span>
+                <span className="text-xs text-gray-400 font-medium">{item.subtitle}</span>
+              </div>
             </div>
             <ChevronRight size={20} className="text-gray-400" />
           </button>
@@ -59,7 +61,10 @@ export default function Menu() {
             <div className="w-12 h-12 bg-[#b45309] text-white rounded-xl flex items-center justify-center shadow-md">
               <CreditCard size={20} />
             </div>
-            <span className="font-bold text-[#b45309] text-lg">Seu Plano</span>
+            <div className="text-left">
+              <span className="font-bold text-[#b45309] text-base block">Minha Assinatura</span>
+              <span className="text-xs text-[#b45309]/70 font-medium">Plano ativo e forma de pagamento</span>
+            </div>
           </div>
           <ChevronRight size={20} className="text-[#b45309]" />
         </button>

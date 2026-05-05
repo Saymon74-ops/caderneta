@@ -1,5 +1,5 @@
 import { Outlet, NavLink, useLocation } from 'react-router-dom';
-import { Home, Users, Plus, FileText, Menu as MenuIcon } from 'lucide-react';
+import { Home, Users, Plus, BookOpen, Menu as MenuIcon } from 'lucide-react';
 
 export default function Layout() {
   const location = useLocation();
@@ -20,20 +20,24 @@ export default function Layout() {
           <span className="text-[10px] font-bold mt-1">Clientes</span>
         </NavLink>
 
-        <div className="relative -top-8 flex justify-center">
-          <NavLink to="/venda" className="bg-[#1a9e5c] w-16 h-16 rounded-full flex items-center justify-center text-white shadow-lg shadow-[#1a9e5c]/40 border-4 border-[#f2f6f3] active:scale-95 transition-transform">
+        <div className="flex flex-col items-center relative -top-5">
+          <NavLink
+            to="/venda"
+            className="bg-[#1a9e5c] w-16 h-16 rounded-full flex items-center justify-center text-white shadow-lg shadow-[#1a9e5c]/40 border-4 border-[#f2f6f3] active:scale-95 transition-transform"
+          >
             <Plus size={32} />
           </NavLink>
+          <span className="text-[10px] font-bold text-[#1a9e5c] mt-1">Vender</span>
         </div>
 
         <NavLink to="/fiados" className={({isActive}) => `flex flex-col items-center p-2 rounded-xl min-w-[64px] ${isActive ? 'text-[#1a9e5c]' : 'text-gray-400'}`}>
-          <FileText size={24} className={location.pathname === '/fiados' ? 'fill-[#1a9e5c]/20' : ''} />
-          <span className="text-[10px] font-bold mt-1">Fiados</span>
+          <BookOpen size={24} className={location.pathname === '/fiados' ? 'fill-[#1a9e5c]/20' : ''} />
+          <span className="text-[10px] font-bold mt-1">Fiado</span>
         </NavLink>
 
         <NavLink to="/menu" className={({isActive}) => `flex flex-col items-center p-2 rounded-xl min-w-[64px] ${isActive ? 'text-[#1a9e5c]' : 'text-gray-400'}`}>
           <MenuIcon size={24} />
-          <span className="text-[10px] font-bold mt-1">Menu</span>
+          <span className="text-[10px] font-bold mt-1">Mais</span>
         </NavLink>
       </nav>
     </div>
