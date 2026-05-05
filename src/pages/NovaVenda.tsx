@@ -23,6 +23,7 @@ export default function NovaVenda() {
   const [carrinho, setCarrinho] = useState<any[]>([]);
   const [vencimento, setVencimento] = useState('');
   const [parcelas, setParcelas] = useState(1);
+  const [modoVencimento, setModoVencimento] = useState<'manual' | 'quinzenal'>('manual');
 
   useEffect(() => {
     async function loadData() {
@@ -114,7 +115,12 @@ export default function NovaVenda() {
         const fiadosArr = [];
         
         for (let i = 0; i < parcelas; i++) {
-          const dataParcela = new Date(currentDate.getFullYear(), currentDate.getMonth() + i, currentDate.getDate());
+          let dataParcela: Date;
+          if (modoVencimento === 'quinzenal') {
+            dataParcela = new Date(currentDate.getTime() + (i * 15 * 24 * 60 * 60 * 1000));
+          } else {
+            dataParcela = new Date(currentDate.getFullYear(), currentDate.getMonth() + i, currentDate.getDate());
+          }
           
           fiadosArr.push({
             dono_id: user?.id,
@@ -289,6 +295,28 @@ export default function NovaVenda() {
                 <label className="block text-sm font-bold text-[#b45309] mb-2 flex items-center gap-2">
                   <Calendar size={18} /> Vencimento 1ª Parcela
                 </label>
+
+                <div className="flex gap-2 mb-3">
+                  <button 
+                    onClick={() => setModoVencimento('manual')}
+                    className={`flex-1 py-2 px-3 rounded-xl border flex items-center justify-center gap-2 text-xs font-bold transition-all ${modoVencimento === 'manual' ? 'border-[#b45309] bg-[#b45309] text-white shadow-sm' : 'border-[#fcd34d] text-[#b45309] bg-white hover:bg-[#fef3c7]'}`}
+                  >
+                    📅 Escolher data
+                  </button>
+                  <button 
+                    onClick={() => {
+                      setModoVencimento('quinzenal');
+                      const hoje = new Date();
+                      hoje.setDate(hoje.getDate() + 15);
+                      setVencimento(hoje.toISOString().split('T')[0]);
+                    }}
+                    className={`flex-1 py-2 px-3 rounded-xl border flex items-center justify-center gap-2 text-xs font-bold transition-all ${modoVencimento === 'quinzenal' ? 'border-[#b45309] bg-[#b45309] text-white shadow-sm' : 'border-[#fcd34d] text-[#b45309] bg-white hover:bg-[#fef3c7]'}`}
+                  >
+                    ⚡ Quinzenal (15 dias)
+                  </button>
+                </div>
+
+                {modoVencimento === 'manual' ? (
                   <input 
                     type="date" 
                     className="input-field border-[#b45309]/30 focus:ring-[#b45309] focus:border-[#b45309] bg-white font-medium text-gray-700" 
@@ -299,6 +327,11 @@ export default function NovaVenda() {
                       setVencimento(e.target.value);
                     }}
                   />
+                ) : (
+                  <div className="input-field border-[#b45309]/30 bg-white/50 font-medium text-gray-700 flex items-center text-sm cursor-not-allowed">
+                    {vencimento ? `Vence em ${vencimento.split('-').reverse().join('/')}` : 'Calculando...'}
+                  </div>
+                )}
               </div>
               
               <div>
@@ -317,7 +350,7 @@ export default function NovaVenda() {
                 </select>
                 {parcelas > 1 && (
                   <p className="text-xs text-[#b45309] font-medium mt-2">
-                    Gerará {parcelas} fiados consecutivos de R$ {(total / parcelas).toFixed(2)} separados por 1 mês cada.
+                    Gerará {parcelas} fiados consecutivos de R$ {(total / parcelas).toFixed(2)} separados por {modoVencimento === 'quinzenal' ? '15 dias' : '1 mês'} cada.
                   </p>
                 )}
               </div>
