@@ -35,13 +35,20 @@ const SubscriptionRoute = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>;
 };
 
+function RootRoute() {
+  const { user, loading } = useAuth();
+  if (loading) return null;
+  if (user) return <Navigate to="/dashboard" replace />;
+  return <Landing />;
+}
+
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
         <Toaster position="top-center" toastOptions={{ className: 'font-sans text-sm' }} />
         <Routes>
-          <Route path="/" element={<Landing />} />
+          <Route path="/" element={<RootRoute />} />
           <Route path="/login" element={<div className="app-container flex flex-col"><Login /></div>} />
           <Route path="/register" element={<div className="app-container flex flex-col"><Register /></div>} />
           <Route path="/forgot-password" element={<div className="app-container flex flex-col"><ForgotPassword /></div>} />

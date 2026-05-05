@@ -17,9 +17,10 @@ export default defineConfig({
         theme_color: '#1a9e5c',
         background_color: '#ffffff',
         display: 'standalone',
+        display_override: ['standalone', 'minimal-ui'],
         orientation: 'portrait',
         scope: '/',
-        start_url: '/',
+        start_url: '/login',
         icons: [
           {
             src: 'pwa-192x192.png',
