@@ -159,7 +159,7 @@ export default function Dashboard() {
   }, [user]);
 
   if (loading) {
-    return <div className="p-10 font-bold text-center text-gray-400">Carregando painel...</div>;
+    return <div className="p-10 font-bold text-center text-gray-400">Carregando...</div>;
   }
 
   return (
@@ -187,7 +187,7 @@ export default function Dashboard() {
           <h1 className="text-xl font-syne font-bold text-gray-800">
             Olá, {profile?.nome?.split(' ')[0] || 'Vendedor'} 👋
           </h1>
-          <p className="text-sm text-gray-500 font-sans font-medium">Bem-vindo ao Caderneta</p>
+          <p className="text-sm text-gray-500 font-sans font-medium">Tudo organizado aqui 📋</p>
         </div>
         <div className="w-12 h-12 bg-[#1a9e5c] text-white rounded-full flex items-center justify-center font-bold text-xl shadow-md border-2 border-white">
           {profile?.nome?.charAt(0) || 'C'}
@@ -196,35 +196,40 @@ export default function Dashboard() {
 
       {/* Hero Card */}
       <div className="bg-[#1a9e5c] text-white rounded-2xl p-6 shadow-lg relative overflow-hidden">
-        <div className="absolute top-0 right-0 p-4 opacity-10">
-          <TrendingUp size={64} />
-        </div>
-        <p className="text-[#dcfce7] text-sm font-medium mb-1">Faturamento do Mês</p>
-        <h2 className="text-4xl font-syne font-bold mb-6">
+        <p className="text-[#dcfce7] text-sm font-medium mb-1">Você vendeu esse mês</p>
+        <h2 className="text-4xl font-syne font-bold mb-0">
           R$ {metrics.faturamentoMes.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
         </h2>
+        <p className="text-[#dcfce7] text-xs font-medium mt-2 opacity-80">
+          {new Date().toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })}
+        </p>
       </div>
 
       {/* Mini Cards Quad */}
       <div className="grid grid-cols-2 gap-3">
         <div className="card text-center py-4 border border-gray-100 flex flex-col items-center">
-          <p className="text-xs text-gray-500 font-medium mb-1">Lucro Real</p>
+          <span className="text-xl block mb-1">💚</span>
+          <p className="text-xs text-gray-500 font-medium mb-1">Seu lucro</p>
           <p className="font-bold text-[#1a9e5c] text-lg">R$ {metrics.lucroReal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
         </div>
         <div className="card text-center py-4 border border-gray-100 flex flex-col items-center bg-[#fef2f2] border-[#fecaca]/50">
-          <p className="text-xs text-[#dc2626] font-medium mb-1">Despesas Hoje</p>
+          <span className="text-xl block mb-1">🔴</span>
+          <p className="text-xs text-[#dc2626] font-medium mb-1">Você gastou hoje</p>
           <p className="font-bold text-[#dc2626] text-lg">R$ {metrics.despesasHoje.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
         </div>
         <div className="card text-center py-4 border border-gray-100 flex flex-col items-center">
-          <p className="text-xs text-gray-500 font-medium mb-1">Vendas Hoje</p>
+          <span className="text-xl block mb-1">🛒</span>
+          <p className="text-xs text-gray-500 font-medium mb-1">Vendas de hoje</p>
           <p className="font-bold text-[#1a9e5c] text-lg">{metrics.vendasHoje}</p>
         </div>
         <div className="card text-center py-4 border border-gray-100 flex flex-col items-center">
-          <p className="text-xs text-gray-500 font-medium mb-1">Recebido Hoje</p>
+          <span className="text-xl block mb-1">💰</span>
+          <p className="text-xs text-gray-500 font-medium mb-1">Recebeu hoje</p>
           <p className="font-bold text-[#b45309] text-lg">R$ {metrics.recebidoHoje.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
         </div>
         <div className="card text-center py-4 border border-gray-100 flex flex-col items-center col-span-2 bg-[#fef3c7] border-[#fde68a]/50">
-          <p className="text-xs text-[#b45309] font-medium mb-1">Total Preso no Fiado</p>
+          <span className="text-xl block mb-1">📒</span>
+          <p className="text-xs text-[#b45309] font-medium mb-1">Ainda no fiado</p>
           <p className="font-bold text-[#92400e] text-lg">R$ {metrics.totalFiado.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
         </div>
       </div>
@@ -232,12 +237,12 @@ export default function Dashboard() {
       {/* Inadimplentes */}
       <div>
         <div className="flex items-center justify-between mb-3 px-1">
-          <h3 className="font-syne font-bold text-gray-800 text-lg">Inadimplentes</h3>
-          <Link to="/fiados" className="text-sm text-[#1a9e5c] font-bold hover:underline">Ver todos</Link>
+          <h3 className="font-syne font-bold text-gray-800 text-lg">Quem está devendo 🚨</h3>
+          <Link to="/fiados" className="text-sm text-[#1a9e5c] font-bold hover:underline">Ver tudo</Link>
         </div>
         <div className="space-y-2">
           {inadimplentes.length === 0 ? (
-            <p className="text-sm text-gray-500 text-center py-4">Nenhum fiado em atraso 👍</p>
+            <p className="text-sm text-gray-500 text-center py-4">Ninguém devendo agora 👍</p>
           ) : inadimplentes.map((inad) => {
             const diasAtraso = Math.floor((new Date().getTime() - new Date(inad.data_vencimento).getTime()) / (1000 * 3600 * 24));
             
@@ -249,7 +254,7 @@ export default function Dashboard() {
                   </div>
                   <div>
                     <p className="font-bold text-gray-800 text-sm">{inad.clientes?.nome || 'Avulso'}</p>
-                    <p className="text-xs text-[#dc2626] font-medium">{diasAtraso} dias atrasado</p>
+                    <p className="text-xs text-[#dc2626] font-medium">Devia pagar há {diasAtraso} dias</p>
                   </div>
                 </div>
                 <span className="font-bold text-[#dc2626]">R$ {Number(inad.valor_restante).toFixed(2)}</span>
@@ -262,11 +267,11 @@ export default function Dashboard() {
       {/* Últimas Vendas */}
       <div>
         <div className="flex items-center justify-between mb-3 px-1">
-          <h3 className="font-syne font-bold text-gray-800 text-lg">Últimas Vendas</h3>
+          <h3 className="font-syne font-bold text-gray-800 text-lg">Últimas vendas</h3>
         </div>
         <div className="space-y-2">
           {ultimasVendas.length === 0 ? (
-            <p className="text-sm text-gray-500 text-center py-4">Nenhuma venda registrada ainda.</p>
+            <p className="text-sm text-gray-500 text-center py-4">Nenhuma venda ainda. Toca no + pra registrar!</p>
           ) : ultimasVendas.map((venda) => (
             <div key={venda.id} className="card p-4 flex justify-between items-center border border-gray-100 hover:border-[#1a9e5c]/30 transition-colors">
               <div>
@@ -289,12 +294,15 @@ export default function Dashboard() {
       </div>
 
       {/* FAB - Fixed Bottom Right */}
-      <button 
-        onClick={() => navigate('/venda')}
-        className="fixed bottom-[84px] right-6 w-14 h-14 bg-[#1a9e5c] text-white rounded-full flex items-center justify-center shadow-lg shadow-[#1a9e5c]/40 active:scale-90 transition-transform z-40"
-      >
-        <Plus size={28} />
-      </button>
+      <div className="fixed bottom-[84px] right-4 flex flex-col items-center gap-1 z-40">
+        <button 
+          onClick={() => navigate('/venda')}
+          className="w-14 h-14 bg-[#1a9e5c] text-white rounded-full flex items-center justify-center shadow-lg shadow-[#1a9e5c]/40 active:scale-90 transition-transform"
+        >
+          <Plus size={28} />
+        </button>
+        <span className="text-[10px] font-bold text-[#1a9e5c] bg-white px-2 py-0.5 rounded-full shadow-sm">VENDER</span>
+      </div>
     </div>
   );
 }
