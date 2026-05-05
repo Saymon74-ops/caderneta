@@ -234,6 +234,24 @@ function ImageCarousel() {
 export default function Landing() {
   const [installPrompt, setInstallPrompt] = useState<any>(null);
   const [isInstalled, setIsInstalled] = useState(false);
+  const [bannerHeight, setBannerHeight] = useState(0);
+  const bannerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (installPrompt && !isInstalled && bannerRef.current) {
+      setBannerHeight(bannerRef.current.offsetHeight);
+      
+      const resizeObserver = new ResizeObserver((entries) => {
+        for (let entry of entries) {
+          setBannerHeight((entry.target as HTMLElement).offsetHeight);
+        }
+      });
+      resizeObserver.observe(bannerRef.current);
+      return () => resizeObserver.disconnect();
+    } else {
+      setBannerHeight(0);
+    }
+  }, [installPrompt, isInstalled]);
 
   useEffect(() => {
     const handler = (e: any) => {
@@ -264,15 +282,24 @@ export default function Landing() {
   };
 
   return (
-    <div className="font-sans text-gray-900 bg-white overflow-x-hidden">
+    <div 
+      className="font-sans text-gray-900 bg-white overflow-x-hidden"
+      style={{ paddingTop: bannerHeight ? `${bannerHeight}px` : '0px' }}
+    >
       {installPrompt && !isInstalled && (
-        <div className="bg-[#1a9e5c] text-white px-6 py-3 flex items-center justify-center sm:justify-between z-[60] relative border-b-2 border-[#0d7a40] flex-wrap gap-3">
+        <div 
+          ref={bannerRef}
+          className="fixed top-0 left-0 w-full bg-[#1a9e5c] text-white px-6 py-3 flex items-center justify-center sm:justify-between z-[60] border-b-2 border-[#0d7a40] flex-wrap gap-3 shadow-md"
+        >
           <span className="text-sm font-bold text-center">📲 Instale o Caderneta no seu celular!</span>
           <button onClick={handleInstall} className="bg-white text-[#1a9e5c] px-6 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wide shadow-sm active:scale-95 transition-transform hover:shadow-md">Instalar app</button>
         </div>
       )}
       {/* NAVBAR */}
-      <nav className={`fixed w-full bg-white/90 backdrop-blur-md border-b border-gray-100 z-50 ${installPrompt && !isInstalled ? 'top-[52px] sm:top-[48px]' : 'top-0'}`}>
+      <nav 
+        className="fixed w-full bg-white/90 backdrop-blur-md border-b border-gray-100 z-50 top-0 transition-all"
+        style={{ paddingTop: bannerHeight ? `${bannerHeight}px` : '0px' }}
+      >
         <div className="max-w-[1100px] mx-auto px-6 h-20 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <svg width="36" height="44" viewBox="0 0 72 88" fill="none" xmlns="http://www.w3.org/2000/svg">
